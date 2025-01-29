@@ -1,6 +1,7 @@
 package todo.controller;
 
 import todo.model.entity.User;
+import todo.model.service.Email;
 import todo.model.service.IUserService;
 
 public class UserController implements IUserController {
@@ -12,6 +13,16 @@ public class UserController implements IUserController {
 
     @Override
     public int createUser(String name, String password, String email) {
+
+        Email e = new Email(email);
+        if(!e.validarEmail()) {
+            System.out.println("Email Inválido");
+            return -2;
+        } else {
+            System.out.println("Email Válido");
+        }
+        System.out.println(e.obterNome());
+
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Nome e e-mail são obrigatórios!");
         }

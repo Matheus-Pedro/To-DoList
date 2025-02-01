@@ -8,12 +8,12 @@ public class Email implements IEmail {
     }
 
     @Override
-    public boolean validarEmail() {
+    public boolean validateEmail() {
         return ( this.email.indexOf('@') > 0 );
     }
 
     @Override
-    public String obterNome(){
+    public String getName(){
         return this.email.substring(0, this.email.indexOf('@'));
     }
 }

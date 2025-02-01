@@ -15,9 +15,9 @@ public class UserDAO implements IUserDAO {
         try (Connection connection= PostgresConnection.getConnection()){
             String query = "INSERT INTO \"User\" (username, password, email) VALUES (?, ?, ?) RETURNING id";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, user.username);
-            ps.setString(2, user.password);
-            ps.setString(3, user.email);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
@@ -74,9 +74,9 @@ public class UserDAO implements IUserDAO {
         try (Connection connection = PostgresConnection.getConnection()) {
             String query = "UPDATE \"User\" SET password = ?, email = ? WHERE username = ? RETURNING id";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, user.password);
-            ps.setString(2, user.email);
-            ps.setString(3, user.username);
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getName());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id"); // Retorna o ID do usuário atualizado

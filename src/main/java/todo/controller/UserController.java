@@ -13,23 +13,29 @@ public class UserController implements IUserController {
 
     @Override
     public int createUser(String name, String password, String email) {
+        try {
+            User user = new User(name, password, email);
+            int userId = userService.createUser(user);  // Chama o serviço para criar o usuário
 
-        Email e = new Email(email);
-        if(!e.validarEmail()) {
-            System.out.println("Email Inválido");
-            return -2;
-        } else {
-            System.out.println("Email Válido");
+            System.out.println("Usuário criado com ID: " + userId);
+            return userId;
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().contains("E-mail inválido")) {
+                return -2;  // E-mail inválido
+            }
+            return -1;
+        } catch (RuntimeException e) {
+            return -1;
         }
-        System.out.println(e.obterNome());
-
-        if (name == null || name.isEmpty() || email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Nome e e-mail são obrigatórios!");
-        }
-
-        User user = new User(name, password, email);
-        int userId = userService.createUser(user);
-        System.out.println("Usuário criado com ID: " + userId);
-        return userId;
     }
+
+    @Override
+    public User retrieveUser(String username) {
+        try {
+            return userService.retrieveUser(username);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
 }

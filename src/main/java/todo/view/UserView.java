@@ -63,7 +63,7 @@ public class UserView extends JFrame {
             int id = userController.createUser(nome, senha, email);
 
             if (id == -1) {
-                JOptionPane.showMessageDialog(null, "ERRO: O usuário" + nome + " não pode ser cadastrado!");
+                JOptionPane.showMessageDialog(null, "ERRO: O usuário " + nome + " não pode ser cadastrado!");
             } else if (id == -2) {
                 JOptionPane.showMessageDialog(null, "ERRO: O e-mail " + email + "é inválido!");
             } else {

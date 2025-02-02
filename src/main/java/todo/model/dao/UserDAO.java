@@ -52,19 +52,24 @@ public class UserDAO implements IUserDAO {
     @Override
     public User retrieveUserById(int id) {
         try (Connection connection = PostgresConnection.getConnection()) {
-            String query = "SELECT id, username, password, email, is_premium FROM \"User\" WHERE username = ?";
+            // Query corrigida ↓
+            String query = "SELECT id, username, password, email, is_premium FROM \"User\" WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setInt(1, id);  // Usa o ID como parâmetro
+
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(
+                User user = new User(
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("email")
                 );
+                user.setId(rs.getInt("id"));
+                user.setPremium(rs.getBoolean("is_premium"));
+                return user;
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao recuperar o usuário: " + e.getMessage());
+            System.err.println("Erro ao recuperar usuário por ID: " + e.getMessage());
         }
         return null;
     }

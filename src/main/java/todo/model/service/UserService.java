@@ -32,6 +32,15 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserById(int id) {
+        try {
+            return userDAO.retrieveUserById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar usuário por ID", e);
+        }
+    }
+
+    @Override
     public User retrieveUser(String username) {
         try {
             return userDAO.retrieveUser(username);

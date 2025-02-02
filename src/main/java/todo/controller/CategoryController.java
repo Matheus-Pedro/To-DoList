@@ -71,7 +71,7 @@ public class CategoryController implements ICategoryController {
                 return -2; // Categoria não encontrada
             }
 
-            if(!category.getUser().getId().equals(userId)) {
+            if(category.getUser().getId() != userId) {
                 return -3; // Usuário não autorizado
             }
 
@@ -92,7 +92,7 @@ public class CategoryController implements ICategoryController {
     public int deleteCategory(int id) {
         try {
             boolean success = categoryService.deleteCategory(id);
-            return success ? 1 : 0; // 1 = Sucesso, 0 = Não encontrado
+            return success ? 1 : 0; // 1 = Sucesso, 0 = Falha
         } catch (RuntimeException e) {
             return -1; // Erro geral
         }
